@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,10 +27,15 @@ import java.util.Locale;
 public class MapsActivity extends FragmentActivity implements LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private Firebase fireBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Firebase.setAndroidContext(this);
+        fireBase = new Firebase("https://evently.firebaseio.com/");
+        fireBase.child("message").setValue("Do you have data? You'll love Firebase.");
+        Log.v("added", "to database");
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
     }
