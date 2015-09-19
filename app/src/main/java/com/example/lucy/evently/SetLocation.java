@@ -1,17 +1,25 @@
 package com.example.lucy.evently;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class SetLocation extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private double lng;
+    private double lat;
+    private MarkerOptions markerOps;
+    private Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +76,22 @@ public class SetLocation extends FragmentActivity {
 
             @Override
             public void onMapClick(LatLng point) {
-                mMap.addMarker(new MarkerOptions().position(point));
+                mMap.clear();
+                markerOps = new MarkerOptions().position(point);
+                mMap.addMarker(markerOps);
 
+                lng = point.longitude;
+                lat = point.latitude;
             }
 
         });
+    }
+
+    public void SetPin (View view) {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("lng", lng);
+        returnIntent.putExtra("lat", lat);
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }

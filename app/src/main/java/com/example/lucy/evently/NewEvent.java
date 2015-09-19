@@ -41,9 +41,25 @@ public class NewEvent extends AppCompatActivity {
 
     public void setLocation (View view) {
         Intent intent = new Intent(this, SetLocation.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void createEvent(View view) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+
+                Double lng = data.getDoubleExtra("lng", 0.0);
+                Toast toast = Toast.makeText(this, Double.toString(lng), 200);
+                toast.show();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 }

@@ -129,4 +129,5 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         startActivity(intent);
     }
 
+
 }
