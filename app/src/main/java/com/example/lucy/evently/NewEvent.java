@@ -2,8 +2,11 @@ package com.example.lucy.evently;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 public class NewEvent extends AppCompatActivity {
 
@@ -33,5 +36,8 @@ public class NewEvent extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void createEvent(View view) {
     }
 }
