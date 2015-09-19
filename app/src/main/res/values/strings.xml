@@ -5,5 +5,9 @@
    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
        AIzaSyBDeTJphppVv0-uKeof-Ng0fAxGRkvzLfw
    </string>
+    <string name="title_activity_new_event">NewEvent</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.example.lucy.evently;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -32,11 +33,15 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Firebase.setAndroidContext(this);
         fireBase = new Firebase("https://evently.firebaseio.com/");
         fireBase.child("message").setValue("Do you have data? You'll love Firebase.");
         Log.v("added", "to database");
+
         setContentView(R.layout.activity_maps);
+
+
         setUpMapIfNeeded();
     }
 
@@ -90,7 +95,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     }
 
     @Override
-
     public void onLocationChanged(Location loc) {
     }
 
@@ -102,4 +106,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+    public void newEvent (View view) {
+        Intent intent = new Intent(this, NewEvent.class);
+        startActivity(intent);
+    }
+
 }
