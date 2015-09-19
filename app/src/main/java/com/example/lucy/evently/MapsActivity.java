@@ -1,14 +1,29 @@
 package com.example.lucy.evently;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity {
+import java.io.IOException;
+import java.util.Locale;
+
+public class MapsActivity extends FragmentActivity implements LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -60,6 +75,25 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
+        LatLng currentLatLng = new LatLng(43.471162, -80.547942);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 14));
+
+        // mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
+
+    @Override
+
+    public void onLocationChanged(Location loc) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {}
+
+    @Override
+    public void onProviderEnabled(String provider) {}
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 }
