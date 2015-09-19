@@ -14,14 +14,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements LocationListener {
@@ -33,9 +40,20 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Firebase.setAndroidContext(this);
-        fireBase = new Firebase("https://evently.firebaseio.com/");
-        fireBase.child("message").setValue("Do you have data? You'll love Firebase.");
-        Log.v("added", "to database");
+        fireBase = new Firebase("https://evently.firebaseio.com/events");
+        Event event = new Event("Cool cool cool",Calendar.getInstance().toString(), 43.471162, -80.547942);
+        Firebase newVal = fireBase.push();
+        newVal.setValue(event);
+
+        /*Query query = fireBase.orderByChild("date").equalTo(Calendar.getInstance().toString());
+
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChild) {
+                System.out.println(snapshot.getKey());
+            }
+        });*/
+
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
     }
