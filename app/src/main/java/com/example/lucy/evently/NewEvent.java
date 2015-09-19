@@ -1,5 +1,6 @@
 package com.example.lucy.evently;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,11 @@ public class NewEvent extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setLocation (View view) {
+        Intent intent = new Intent(this, SetLocation.class);
+        startActivity(intent);
     }
 
     public void createEvent(View view) {

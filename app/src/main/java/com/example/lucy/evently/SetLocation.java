@@ -1,64 +1,22 @@
 package com.example.lucy.evently;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Locale;
-
-public class MapsActivity extends FragmentActivity implements LocationListener {
+public class SetLocation extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private Firebase fireBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Firebase.setAndroidContext(this);
-
-        fireBase = new Firebase("https://evently.firebaseio.com/events");
-        Event event = new Event("Cool cool cool",Calendar.getInstance().toString(), 43.471162, -80.547942);
-        Firebase newVal = fireBase.push();
-        newVal.setValue(event);
-
-        /*Query query = fireBase.orderByChild("date").equalTo(Calendar.getInstance().toString());
-
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChild) {
-                System.out.println(snapshot.getKey());
-            }
-        });*/
-        setContentView(R.layout.activity_maps);
-
-
+        setContentView(R.layout.activity_set_location);
         setUpMapIfNeeded();
     }
 
@@ -103,30 +61,17 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-
         LatLng currentLatLng = new LatLng(43.471162, -80.547942);
-
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
 
-        // mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+
+            @Override
+            public void onMapClick(LatLng point) {
+                mMap.addMarker(new MarkerOptions().position(point));
+
+            }
+
+        });
     }
-
-    @Override
-    public void onLocationChanged(Location loc) {
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {}
-
-    @Override
-    public void onProviderEnabled(String provider) {}
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-    public void newEvent (View view) {
-        Intent intent = new Intent(this, NewEvent.class);
-        startActivity(intent);
-    }
-
 }

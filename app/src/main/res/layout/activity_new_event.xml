@@ -20,6 +20,10 @@
         android:id="@+id/description"
         android:layout_height="wrap_content" />
 
+    <Button android:text="Set Location"
+        android:onClick="setLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <Button android:text="Create Event"
         android:onClick="createEvent"
