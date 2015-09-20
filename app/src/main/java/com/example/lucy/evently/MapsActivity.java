@@ -91,7 +91,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
 
 
-
         /*new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChild) {
