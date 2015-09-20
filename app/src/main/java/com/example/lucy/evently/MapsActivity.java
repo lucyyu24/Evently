@@ -42,15 +42,15 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         super.onCreate(savedInstanceState);
 
         Firebase.setAndroidContext(this);
-
         fireBase = new Firebase("https://evently.firebaseio.com/events");
-        Event event = new Event("Cool cool cool",Calendar.getInstance().toString(), 43.471162, -80.547942);
-        Firebase newVal = fireBase.push();
-        newVal.setValue(event);
 
-        /*Query query = fireBase.orderByChild("date").equalTo(Calendar.getInstance().toString());
+        Calendar c = Calendar.getInstance();
+        String cur = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_MONTH);
+        Log.v("Cindy date is ", cur);
 
-        query.addChildEventListener(new ChildEventListener() {
+        Query query = fireBase.orderByChild("date").equalTo(cur);
+
+        /*query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChild) {
                 System.out.println(snapshot.getKey());
