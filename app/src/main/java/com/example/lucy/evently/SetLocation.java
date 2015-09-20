@@ -79,7 +79,6 @@ public class SetLocation extends FragmentActivity {
                 mMap.clear();
                 markerOps = new MarkerOptions().position(point);
                 mMap.addMarker(markerOps);
-
                 lng = point.longitude;
                 lat = point.latitude;
             }

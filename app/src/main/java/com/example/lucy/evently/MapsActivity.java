@@ -41,7 +41,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Firebase fireBase;
-    HashMap<MarkerOptions, AppEvent> hMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +57,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         final String curDate = year + "-" + month + "-" + day;
         Log.v("curdate is", curDate);
 
-        hMap = new HashMap<MarkerOptions, AppEvent>();
-
         Query query = fireBase.orderByChild("date").equalTo(curDate);
 
         query.addChildEventListener(new ChildEventListener() {
@@ -67,9 +64,11 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
             public void onChildAdded(DataSnapshot snapshot, String previousChild) {
                 AppEvent event = snapshot.getValue(AppEvent.class);
                 LatLng currentLocation = new LatLng(event.getLatitude(), event.getLongitude());
-                MarkerOptions marker = new MarkerOptions().position(currentLocation);
-                mMap.addMarker(marker);
-                hMap.put(marker, event);
+                MarkerOptions markerOps = new MarkerOptions()
+                        .position(currentLocation)
+                        .title(event.getStartTime() + " -- "+ event.getEndTime())
+                        .snippet(event.getDescription());
+                Marker marker = mMap.addMarker(markerOps);
             }
 
             @Override
@@ -179,6 +178,16 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
 
         // mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
+        {
+            @Override
+            public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker)
+            {
+                marker.showInfoWindow();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -198,6 +207,5 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         Intent intent = new Intent(this, NewEvent.class);
         startActivity(intent);
     }
-
 
 }

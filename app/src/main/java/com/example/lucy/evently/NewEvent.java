@@ -98,7 +98,7 @@ public class NewEvent extends AppCompatActivity {
 
         Firebase newVal = fireBase.push();
         newVal.setValue(event);
-
+        finish();
     }
 
     @Override
