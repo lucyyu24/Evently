@@ -113,7 +113,7 @@ public class NewEvent extends AppCompatActivity {
                 latitude = data.getDoubleExtra("lat", 0.0);
 
                 TextView locTv = (TextView) findViewById(R.id.location);
-                locTv.setText("("+latitude+","+longitude+")");
+                locTv.setText("(" + latitude+","+longitude+")");
             }
             if (resultCode == RESULT_CANCELED) {
                 //Write your code if there's no result

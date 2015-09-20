@@ -21,6 +21,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+import com.google.android.gms.games.snapshot.Snapshot;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements LocationListener {
@@ -48,14 +50,71 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         String cur = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_MONTH);
         Log.v("Cindy date is ", cur);
 
-        Query query = fireBase.orderByChild("date").equalTo(cur);
+        Query query = fireBase.orderByChild("date")/*.equalTo(cur)*/;
 
-        /*query.addChildEventListener(new ChildEventListener() {
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChild) {
-                System.out.println(snapshot.getKey());
+                AppEvent event = snapshot.getValue(AppEvent.class);
+                LatLng currentLocation = new LatLng(event.getLatitude(),  event.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(currentLocation));
+
             }
-        });*/
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String s) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String s) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError fbe) {
+
+            }
+        });
+
+
+
+
+        /*new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String previousChild) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot ds) {
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String s) {
+                Log.v("Cindy number of kids ", ""+snapshot.getChildrenCount());
+                for (int i = 0; i < snapshot.getChildrenCount(); ++i) {
+                    DataSnapshot cur = snapshot.getChildren().iterator().next();
+                    Log.v("current key is ", cur.getKey());
+                    Log.v("current val is ", cur.getValue().toString());
+                    *//*for (int j = 0; j < cur.getChildrenCount(); ++j) {
+                        DataSnapshot val = cur.getChildren().iterator().next();
+                        Log.v("current key is ",val.getKey());
+                        Log.v("current val is ", val.getValue().toString());
+                    }*//*
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot ds, String s) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError fbe) {
+
+            }
+        }*/
         setContentView(R.layout.activity_maps);
 
 

@@ -56,7 +56,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Date"
+            android:text="End Time"
             android:onClick="showEndTimePickerDialog"/>
 
         <TextView
