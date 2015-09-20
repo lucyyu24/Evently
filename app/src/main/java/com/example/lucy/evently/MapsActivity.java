@@ -27,10 +27,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -38,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Firebase fireBase;
+    HashMap<MarkerOptions, AppEvent> hMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +50,26 @@ public class MapsActivity extends FragmentActivity implements LocationListener {
         Firebase.setAndroidContext(this);
         fireBase = new Firebase("https://evently.firebaseio.com/events");
 
+        DecimalFormat formatter = new DecimalFormat("00");
         Calendar c = Calendar.getInstance();
-        String cur = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_MONTH);
-        Log.v("Cindy date is ", cur);
+        String year = formatter.format(c.get(Calendar.YEAR));
+        String month = formatter.format(c.get(Calendar.MONTH));
+        String day = formatter.format(c.get(Calendar.DAY_OF_MONTH));
+        final String curDate = year + "-" + month + "-" + day;
+        Log.v("curdate is", curDate);
 
-        Query query = fireBase.orderByChild("date")/*.equalTo(cur)*/;
+        hMap = new HashMap<MarkerOptions, AppEvent>();
+
+        Query query = fireBase.orderByChild("date").equalTo(curDate);
 
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String previousChild) {
                 AppEvent event = snapshot.getValue(AppEvent.class);
-                LatLng currentLocation = new LatLng(event.getLatitude(),  event.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(currentLocation));
-
+                LatLng currentLocation = new LatLng(event.getLatitude(), event.getLongitude());
+                MarkerOptions marker = new MarkerOptions().position(currentLocation);
+                mMap.addMarker(marker);
+                hMap.put(marker, event);
             }
 
             @Override
